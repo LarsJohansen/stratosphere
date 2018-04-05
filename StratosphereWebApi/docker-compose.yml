@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  stratospherewebapi:
+    image: stratospherewebapi
+    build:
+      context: .
+      dockerfile: StratosphereWebApi/Dockerfile

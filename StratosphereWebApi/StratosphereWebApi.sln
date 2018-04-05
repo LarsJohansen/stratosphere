@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StratosphereWebApi", "StratosphereWebApi\StratosphereWebApi.csproj", "{6BB1E6E9-71AE-414D-8665-39AE57FD5353}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8078EBC4-C0BB-4698-BAEB-44F478575891}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6BB1E6E9-71AE-414D-8665-39AE57FD5353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BB1E6E9-71AE-414D-8665-39AE57FD5353}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BB1E6E9-71AE-414D-8665-39AE57FD5353}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BB1E6E9-71AE-414D-8665-39AE57FD5353}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8078EBC4-C0BB-4698-BAEB-44F478575891}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8078EBC4-C0BB-4698-BAEB-44F478575891}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8078EBC4-C0BB-4698-BAEB-44F478575891}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8078EBC4-C0BB-4698-BAEB-44F478575891}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {717CB00F-4B0B-4831-BE4D-DC91BFD54F6D}
+	EndGlobalSection
+EndGlobal

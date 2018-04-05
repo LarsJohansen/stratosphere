@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.0</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>8078ebc4-c0bb-4698-baeb-44f478575891</ProjectGuid>
+    <ProjectGuid>c95ac8d6-c6c8-4cfe-a95b-5e4ec8bab455</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>http://localhost:{ServicePort}/api/values</DockerServiceUrl>
     <DockerServiceName>stratospherewebapi</DockerServiceName>

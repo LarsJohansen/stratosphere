@@ -26,6 +26,9 @@ namespace Persistence
 
         public DbSet<Team> Teams { get; set; }
 
+        public DbSet<MatchRound> MatchRounds { get; set; }
+
+        public DbSet<MatchDay> MatchDays { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -112,6 +115,26 @@ namespace Persistence
                     .HasForeignKey(e => e.FkCompetition);
             });
 
+            modelBuilder.Entity<MatchRound>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100);
+
+
+                entity.HasOne(e => e.Competition)
+                    .WithMany(c => c.MatchRounds)
+                    .HasForeignKey(e => e.FkCompetition);
+            });
+
+            modelBuilder.Entity<MatchDay>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100);
+
+                entity.HasOne(e => e.MatchRound)
+                    .WithMany(m => m.MatchDays)
+                    .HasForeignKey(e => e.FkMatchRound);
+            });
         }
     }
 }

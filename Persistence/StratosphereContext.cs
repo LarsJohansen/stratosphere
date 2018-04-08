@@ -135,6 +135,36 @@ namespace Persistence
                     .WithMany(m => m.MatchDays)
                     .HasForeignKey(e => e.FkMatchRound);
             });
+
+            modelBuilder.Entity<MatchStatistics>(entity =>
+            {
+
+                entity.HasOne(e => e.Team)
+                    .WithMany(m => m.MatchStatistics)
+                    .HasForeignKey(e => e.FkTeam);
+
+                entity.HasOne(e => e.Match)
+                    .WithMany(m => m.MatchStatistics)
+                    .HasForeignKey(e => e.FkMatch);
+            });
+
+            modelBuilder.Entity<Match>(entity =>
+            {
+
+                entity.HasOne(e => e.HomeTeam)
+                    .WithMany(t => t.Matches)
+                    .HasForeignKey(e => e.FkHomeTeam);
+
+                entity.HasOne(e => e.AwayTeam)
+                    .WithMany(t => t.Matches)
+                    .HasForeignKey(e => e.FkAwayTeam);
+
+                entity.HasOne(e => e.MatchDay)
+                    .WithMany(d => d.Matches)
+                    .HasForeignKey(e => e.FkMatchDay);
+
+                //TODO: NOT DEFNED
+            });
         }
     }
 }

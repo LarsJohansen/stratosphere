@@ -14,6 +14,8 @@ namespace Persistence.Entities
 
         public Int64 FkMatchRound { get; set; }
 
-        public MatchRound MatchRound { get; set; }
+        public virtual MatchRound MatchRound { get; set; }
+
+        public virtual ICollection<Match> Matches { get; set; }
     }
 }

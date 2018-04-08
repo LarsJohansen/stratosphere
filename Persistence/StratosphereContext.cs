@@ -16,6 +16,16 @@ namespace Persistence
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<UserOnLeague> UserOnLeagues { get; set; }
+
+        public DbSet<UserLeague> UserLeagues { get; set; }
+
+        public DbSet<Competition> Competitions { get; set; }
+
+        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<Team> Teams { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -77,6 +87,31 @@ namespace Persistence
                     .WithMany(u => u.UserOnLeagues)
                     .HasForeignKey(e => e.FkUser);
             });
+
+            modelBuilder.Entity<Team>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100);
+
+                entity.HasOne(e => e.Group)
+                    .WithMany(g => g.Teams)
+                    .HasForeignKey(e => e.FkGroup);
+
+                entity.HasOne(e => e.Competition)
+                    .WithMany(g => g.Teams)
+                    .HasForeignKey(e => e.FkCompetition);
+            });
+
+            modelBuilder.Entity<Group>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100);
+
+                entity.HasOne(e => e.Competition)
+                    .WithMany(e => e.Groups)
+                    .HasForeignKey(e => e.FkCompetition);
+            });
+
         }
     }
 }

@@ -11,9 +11,10 @@ using System;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(StratosphereContext))]
-    partial class StratosphereContextModelSnapshot : ModelSnapshot
+    [Migration("20180408151239_team and group")]
+    partial class teamandgroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

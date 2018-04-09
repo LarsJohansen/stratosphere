@@ -14,9 +14,9 @@ namespace Persistence.Entities
 
         public Int64 FkMatchDay { get; set; }
 
-        public Int64 FkHomeStatistics { get; set; }
+        public Int64? FkHomeStatistics { get; set; }
 
-        public Int64 FkAwayStatistics { get; set; }
+        public Int64? FkAwayStatistics { get; set; }
 
         public Team HomeTeam { get; set; }
 
@@ -24,6 +24,8 @@ namespace Persistence.Entities
 
         public MatchDay MatchDay { get; set; }
 
-        public ICollection<MatchStatistics> MatchStatistics { get; set; }
+        public MatchStatistics HomeMatchStatistics { get; set; }
+
+        public MatchStatistics AwayMatchStatistics { get; set; }
     }
 }

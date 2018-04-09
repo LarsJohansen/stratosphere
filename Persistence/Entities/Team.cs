@@ -18,7 +18,9 @@ namespace Persistence.Entities
 
         public virtual Group Group { get; set; }
 
-        public virtual ICollection<Match> Matches { get; set; }
+        public virtual ICollection<Match> HomeMatches { get; set; }
+
+        public virtual ICollection<Match> AwayMatches { get; set; }
 
         public virtual ICollection<MatchStatistics> MatchStatistics { get; set; }
 

@@ -11,9 +11,10 @@ using System;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(StratosphereContext))]
-    partial class StratosphereContextModelSnapshot : ModelSnapshot
+    [Migration("20180409155134_added match and matchstatistics")]
+    partial class addedmatchandmatchstatistics
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,27 +41,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Competitions");
-                });
-
-            modelBuilder.Entity("Persistence.Entities.CompetitionSetup", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long>("FkCompetition");
-
-                    b.Property<int>("NumberOfGroups");
-
-                    b.Property<int>("NumberOfTeams");
-
-                    b.Property<int>("NumberOfTeamsToPlayOff");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FkCompetition")
-                        .IsUnique();
-
-                    b.ToTable("CompetitionSetup");
                 });
 
             modelBuilder.Entity("Persistence.Entities.Group", b =>
@@ -256,14 +236,6 @@ namespace Persistence.Migrations
                     b.HasIndex("FkUserLeague");
 
                     b.ToTable("UserOnLeagues");
-                });
-
-            modelBuilder.Entity("Persistence.Entities.CompetitionSetup", b =>
-                {
-                    b.HasOne("Persistence.Entities.Competition", "Competition")
-                        .WithOne("CompetitionSetup")
-                        .HasForeignKey("Persistence.Entities.CompetitionSetup", "FkCompetition")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Persistence.Entities.Group", b =>

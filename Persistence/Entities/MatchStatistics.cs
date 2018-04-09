@@ -10,8 +10,6 @@ namespace Persistence.Entities
 
         public Int64 FkTeam { get; set; }
 
-        public Int64 FkMatch { get; set; }
-
         public int NumberOfGoals { get; set; }
 
         public int NumberOfRedCards { get; set; }
@@ -22,9 +20,11 @@ namespace Persistence.Entities
 
         public virtual Team Team { get; set; }
 
-        public virtual Match Match { get; set; }
+        public virtual Match HomeMatch { get; set; }
 
-        
+        public virtual Match AwayMatch { get; set; }
+
+
 
     }
 }

@@ -143,27 +143,45 @@ namespace Persistence
                     .WithMany(m => m.MatchStatistics)
                     .HasForeignKey(e => e.FkTeam);
 
-                entity.HasOne(e => e.Match)
-                    .WithMany(m => m.MatchStatistics)
-                    .HasForeignKey(e => e.FkMatch);
+                entity.HasOne(e => e.HomeMatch)
+                    .WithOne(m => m.HomeMatchStatistics)
+                    .HasForeignKey<MatchStatistics>(e => e.FkTeam);
             });
 
             modelBuilder.Entity<Match>(entity =>
             {
 
                 entity.HasOne(e => e.HomeTeam)
-                    .WithMany(t => t.Matches)
+                    .WithMany(t => t.HomeMatches)
                     .HasForeignKey(e => e.FkHomeTeam);
 
                 entity.HasOne(e => e.AwayTeam)
-                    .WithMany(t => t.Matches)
+                    .WithMany(t => t.AwayMatches)
                     .HasForeignKey(e => e.FkAwayTeam);
 
                 entity.HasOne(e => e.MatchDay)
                     .WithMany(d => d.Matches)
                     .HasForeignKey(e => e.FkMatchDay);
 
-                //TODO: NOT DEFNED
+                entity.HasOne(e => e.HomeMatchStatistics)
+                    .WithOne(s => s.HomeMatch)
+                    .HasForeignKey<Match>(s => s.FkHomeStatistics);
+                
+
+                entity.HasOne(e => e.AwayMatchStatistics)
+                    .WithOne(s => s.AwayMatch)
+                    .HasForeignKey<Match>(e => e.FkAwayStatistics);
+           
+            });
+
+            modelBuilder.Entity<CompetitionSetup>(entity =>
+            {
+
+                entity.HasOne(e => e.Competition)
+                    .WithOne( c => c.CompetitionSetup)
+                    .HasForeignKey<CompetitionSetup>(e => e.FkCompetition);
+
+
             });
         }
     }

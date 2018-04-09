@@ -183,6 +183,18 @@ namespace Persistence
 
 
             });
+
+            modelBuilder.Entity<TeamOnCompetition>(entity =>
+            {
+
+                entity.HasOne(e => e.Competition)
+                    .WithMany(c => c.TeamOnCompetitions)
+                    .HasForeignKey(e => e.FkCompetition);
+
+                entity.HasOne(e => e.Team)
+                    .WithMany(t => t.TeamOnCompetitions)
+                    .HasForeignKey(e => e.FkTeam);
+            });
         }
     }
 }

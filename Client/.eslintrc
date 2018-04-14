@@ -1,26 +1,12 @@
 {
   "extends": [
-    "eslint:recommended",
+    "react-app",
     "plugin:import/errors",
     "plugin:import/warnings"
   ],
   "plugins": [
     "react"
   ],
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "env": {
-    "es6": true,
-    "browser": true,
-    "node": true,
-    "jquery": true,
-    "mocha": true
-  },
   "rules": {
     "quotes": 0,
     "no-console": 1,

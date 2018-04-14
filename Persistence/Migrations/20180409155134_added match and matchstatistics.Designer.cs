@@ -11,9 +11,10 @@ using System;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(StratosphereContext))]
-    partial class StratosphereContextModelSnapshot : ModelSnapshot
+    [Migration("20180409155134_added match and matchstatistics")]
+    partial class addedmatchandmatchstatistics
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,27 +41,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Competitions");
-                });
-
-            modelBuilder.Entity("Persistence.Entities.CompetitionSetup", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long>("FkCompetition");
-
-                    b.Property<int>("NumberOfGroups");
-
-                    b.Property<int>("NumberOfTeams");
-
-                    b.Property<int>("NumberOfTeamsToPlayOff");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FkCompetition")
-                        .IsUnique();
-
-                    b.ToTable("CompetitionSetup");
                 });
 
             modelBuilder.Entity("Persistence.Entities.Group", b =>
@@ -191,26 +171,6 @@ namespace Persistence.Migrations
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("Persistence.Entities.TeamOnCompetition", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long>("FkCompetition");
-
-                    b.Property<long>("FkTeam");
-
-                    b.Property<int?>("GroupTieBreakPosition");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FkCompetition");
-
-                    b.HasIndex("FkTeam");
-
-                    b.ToTable("TeamOnCompetition");
-                });
-
             modelBuilder.Entity("Persistence.Entities.User", b =>
                 {
                     b.Property<long>("Id")
@@ -276,14 +236,6 @@ namespace Persistence.Migrations
                     b.HasIndex("FkUserLeague");
 
                     b.ToTable("UserOnLeagues");
-                });
-
-            modelBuilder.Entity("Persistence.Entities.CompetitionSetup", b =>
-                {
-                    b.HasOne("Persistence.Entities.Competition", "Competition")
-                        .WithOne("CompetitionSetup")
-                        .HasForeignKey("Persistence.Entities.CompetitionSetup", "FkCompetition")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Persistence.Entities.Group", b =>
@@ -354,19 +306,6 @@ namespace Persistence.Migrations
                     b.HasOne("Persistence.Entities.Group", "Group")
                         .WithMany("Teams")
                         .HasForeignKey("FkGroup")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Persistence.Entities.TeamOnCompetition", b =>
-                {
-                    b.HasOne("Persistence.Entities.Competition", "Competition")
-                        .WithMany("TeamOnCompetitions")
-                        .HasForeignKey("FkCompetition")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Persistence.Entities.Team", "Team")
-                        .WithMany("TeamOnCompetitions")
-                        .HasForeignKey("FkTeam")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

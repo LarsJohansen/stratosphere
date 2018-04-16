@@ -30,10 +30,9 @@ function getTeamsByGroup(teams, group) {
 
 Group.propTypes = {
   teams: PropTypes.array.isRequired,
-  char: PropTypes.char.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      char: PropTypes.char.isRequire
+      char: PropTypes.string.isRequire
     })
   }),
   location: PropTypes.shape({

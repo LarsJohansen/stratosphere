@@ -28,7 +28,19 @@ namespace Persistence
 
         public DbSet<MatchRound> MatchRounds { get; set; }
 
-        public DbSet<MatchDay> MatchDays { get; set; }
+        public DbSet<MatchStatistics> MatchStatistics { get; set; }
+
+        public DbSet<Match> Matches { get; set; }
+
+        public DbSet<CompetitionSetup> CompetitionSetups { get; set; }
+
+        public DbSet<TeamOnCompetition> TeamOnCompetitions { get; set; }
+
+        public DbSet<UserTieBreak> UserTieBreaks { get; set; }
+
+        public DbSet<UserCompetitionScore> UserCompetitionScores { get; set; }
+
+        public DbSet<UserMatchPrediction> UserMatchPredictions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

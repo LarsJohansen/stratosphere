@@ -195,6 +195,17 @@ namespace Persistence
                     .WithMany(t => t.TeamOnCompetitions)
                     .HasForeignKey(e => e.FkTeam);
             });
+
+            modelBuilder.Entity<UserTieBreak>(entity =>
+            {
+                entity.HasOne(e => e.UserOnLeague)
+                    .WithMany(u => u.UserTieBreaks)
+                    .HasForeignKey(e => e.FkUserOnLeague);
+
+                entity.HasOne(e => e.TeamOnCompetition)
+                    .WithMany(t => t.UserTieBreaks)
+                    .HasForeignKey(e => e.FkTeamOnCompetition);
+            });
         }
     }
 }

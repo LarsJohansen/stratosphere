@@ -16,6 +16,7 @@ namespace Persistence.Entities
 
         public UserLeague UserLeague { get; set; }
 
+        public virtual ICollection<UserTieBreak> UserTieBreaks { get; set; }
      
     }
 }

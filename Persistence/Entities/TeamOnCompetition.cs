@@ -17,5 +17,7 @@ namespace Persistence.Entities
         public virtual Team Team { get; set; }
 
         public virtual Competition Competition { get; set; }
+
+        public virtual ICollection<UserTieBreak> UserTieBreaks { get; set; }
     }
 }

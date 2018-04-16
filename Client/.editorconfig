@@ -1,6 +1,6 @@
 # editorconfig.org
 root = true
-
+prettier.eslintIntegration = true
 [*]
 indent_style = space
 indent_size = 2

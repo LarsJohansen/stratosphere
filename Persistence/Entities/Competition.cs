@@ -27,5 +27,8 @@ namespace Persistence.Entities
         public virtual CompetitionSetup CompetitionSetup { get; set; }
 
         public virtual ICollection<TeamOnCompetition> TeamOnCompetitions { get; set; }
+
+        public virtual ICollection<UserCompetitionScore> UserCompetitionScores { get; set; }
+
     }
 }

@@ -22,5 +22,7 @@ namespace Persistence.Entities
 
         public virtual ICollection<UserOnLeague> UserOnLeagues { get; set; }
 
+        public virtual UserCompetitionScore UserCompetitionScore { get; set; }
+
     }
 }

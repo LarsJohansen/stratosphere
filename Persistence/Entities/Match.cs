@@ -27,5 +27,7 @@ namespace Persistence.Entities
         public MatchStatistics HomeMatchStatistics { get; set; }
 
         public MatchStatistics AwayMatchStatistics { get; set; }
+
+        public virtual ICollection<UserMatchPrediction> UserMatchPredictions { get; set; }
     }
 }

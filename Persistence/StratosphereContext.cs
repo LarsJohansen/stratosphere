@@ -206,6 +206,28 @@ namespace Persistence
                     .WithMany(t => t.UserTieBreaks)
                     .HasForeignKey(e => e.FkTeamOnCompetition);
             });
+
+            modelBuilder.Entity<UserCompetitionScore>(entity =>
+            {
+                entity.HasOne(e => e.User)
+                    .WithOne(e => e.UserCompetitionScore)
+                    .HasForeignKey<UserCompetitionScore>(e => e.FkUser);
+
+                entity.HasOne(e => e.Competition)
+                    .WithMany(c => c.UserCompetitionScores)
+                    .HasForeignKey(e => e.FkCompetition);
+            });
+
+            modelBuilder.Entity<UserMatchPrediction>(entity =>
+            {
+                entity.HasOne(e => e.UserOnLeague)
+                    .WithMany(u => u.UserMatchPredictions)
+                    .HasForeignKey(e => e.FkUserOnLeague);
+
+                entity.HasOne(e => e.Match)
+                    .WithMany(m => m.UserMatchPredictions)
+                    .HasForeignKey(e => e.FkMatch);
+            });
         }
     }
 }

@@ -44,7 +44,6 @@ class GroupApi {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(Object.assign([], groups));
-        debugger;
       }, delay);
     });
   }

@@ -1,15 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import GroupApi from "../api/mockGroupApi";
 import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import { PropTypes } from "prop-types";
 import { bindActionCreators } from "redux";
-import * as groupActions from "../actions/groupActions";
+import * as groupActions from "../../actions/groupActions";
+import * as teamActions from "../../actions/teamActions";
 
 class AllGroupsPage extends React.Component {
   render() {
-    const { groups } = this.props;
+    const { groups, teams } = this.props;
+    function groupPath(groupName) {
+      return {
+        pathname: "/groups/" + groupName,
+        teams: teams
+      };
+    }
+
     return (
       <Table striped bordered condensed hover>
         <thead>
@@ -20,9 +27,9 @@ class AllGroupsPage extends React.Component {
         <tbody>
           {groups.map(group => (
             <tr key={group.id}>
-            <td >
-              <Link to={"/groups/" + group.name}>{group.name}</Link>
-            </td>
+              <td>
+                <Link to={groupPath(group.name)}>{group.name}</Link>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -32,18 +39,21 @@ class AllGroupsPage extends React.Component {
 }
 
 AllGroupsPage.propTypes = {
-  groups: PropTypes.array.isRequired
+  groups: PropTypes.array.isRequired,
+  teams: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
   return {
-    groups: state.groups
-  }
+    groups: state.groups,
+    teams: state.teams
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(groupActions, dispatch)
+    groupActions: bindActionCreators(groupActions, dispatch),
+    teamActions: bindActionCreators(teamActions, dispatch)
   };
 }
 

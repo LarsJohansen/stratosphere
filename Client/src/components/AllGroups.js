@@ -19,8 +19,8 @@ class AllGroupsPage extends React.Component {
         </thead>
         <tbody>
           {groups.map(group => (
-            <tr>
-            <td key={group.id}>
+            <tr key={group.id}>
+            <td >
               <Link to={"/groups/" + group.name}>{group.name}</Link>
             </td>
             </tr>

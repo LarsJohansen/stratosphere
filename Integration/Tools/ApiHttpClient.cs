@@ -9,13 +9,16 @@ namespace Integration.Tools
 {
     public class ApiHttpClient
     {
-        public T GetDeleteRequest<T>(string url, bool isDeleteRequest = false)
+        public T GetDeleteRequest<T>(string url,  bool isDeleteRequest, Dictionary<string, string> additionalHealders = null)
         {
             var clientHandler = CreateClientHandler();
             using (var httpClient = new HttpClient(clientHandler))
             {
 
                 httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                AddAdditionalHeaders<T>(additionalHealders, httpClient);
 
                 var response = (isDeleteRequest) ? httpClient.DeleteAsync(url).Result : httpClient.GetAsync(url).Result;
 
@@ -26,6 +29,17 @@ namespace Integration.Tools
 
                 var result = response.Content.ReadAsStringAsync().Result;
                 return JsonConvert.DeserializeObject<T>(result);
+            }
+        }
+
+        private static void AddAdditionalHeaders<T>(Dictionary<string, string> additionalHealders, HttpClient httpClient)
+        {
+            if (additionalHealders != null)
+            {
+                foreach (var additionalHeader in additionalHealders)
+                {
+                    httpClient.DefaultRequestHeaders.Add(additionalHeader.Key, additionalHeader.Value);
+                }
             }
         }
 

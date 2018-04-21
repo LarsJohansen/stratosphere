@@ -30,7 +30,7 @@ namespace TestRunner
                         $"\nNumberOfTeams\n{competitionDto.NumberOfTeams}\nNumberOfGames\n{competitionDto.NumberOfGames}\nYear:{competitionDto.Year}\n");
                     Console.WriteLine();
 
-                    if (competitionDto.Caption.Contains("World Cup"))
+                    if (competitionDto.League.Equals("WC"))
                     {
                         worldCupId = competitionDto.Id;
                     }

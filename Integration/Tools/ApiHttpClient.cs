@@ -11,8 +11,8 @@ namespace Integration.Tools
     {
         public T GetDeleteRequest<T>(string url,  bool isDeleteRequest, Dictionary<string, string> additionalHealders = null)
         {
-            var clientHandler = CreateClientHandler();
-            using (var httpClient = new HttpClient(clientHandler))
+  
+            using (var httpClient = new HttpClient())
             {
 
                 httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -45,8 +45,8 @@ namespace Integration.Tools
 
         public TReturnDto PostPutRequest<TReturnDto, TPostDto>(TPostDto data, string url, bool isPutRequest = false)
         {
-            var clientHandler = CreateClientHandler();
-            using (var httpClient = new HttpClient(clientHandler))
+     
+            using (var httpClient = new HttpClient())
             {
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -69,19 +69,23 @@ namespace Integration.Tools
 
         private static void ThrowRestApiException(HttpResponseMessage response)
         {
-            var errorResponse = response.Content.ReadAsStringAsync().Result;
-            var errorResult =
-                JsonConvert.DeserializeObject<RestApiErrorMessage>(errorResponse);
-            throw new RestApiException { ReturnCode = errorResult.statusCode.ToString(), ReturnMessage = errorResult.Message };
+            var errorResponse = "";
+            RestApiErrorMessage restApiErrorMessage;
+            try
+            {
+                 errorResponse = response.Content.ReadAsStringAsync().Result;
+                 restApiErrorMessage =
+                    JsonConvert.DeserializeObject<RestApiErrorMessage>(errorResponse);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception($"Could not deserialize into RestApiException\nErrorResponse: {errorResponse}\n" +
+                                    $"Exception: {ex}");
+            }
+            throw new RestApiException { ReturnCode = restApiErrorMessage.statusCode.ToString(), ReturnMessage = restApiErrorMessage.Message };
         }
 
-        private static HttpClientHandler CreateClientHandler()
-        {
-            var clientHandler = new HttpClientHandler();
-            clientHandler.UseDefaultCredentials = true;
-            clientHandler.PreAuthenticate = true;
-            clientHandler.ClientCertificateOptions = ClientCertificateOption.Automatic;
-            return clientHandler;
-        }
+       
     }
 }

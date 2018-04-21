@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration", "Integration\Integration.csproj", "{E889A57D-BD59-451B-9C88-71F17074A806}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynchronizationRunner", "..\FootballDataSynchronizer\SynchronizationRunner.csproj", "{051CFF0B-1477-4853-B0FA-E4DCB2BD99E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchronizationRunner", "FootballDataSynchronizer\SynchronizationRunner.csproj", "{F0024012-6529-40BC-AB40-A97EBF0EF510}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{E889A57D-BD59-451B-9C88-71F17074A806}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E889A57D-BD59-451B-9C88-71F17074A806}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E889A57D-BD59-451B-9C88-71F17074A806}.Release|Any CPU.Build.0 = Release|Any CPU
-		{051CFF0B-1477-4853-B0FA-E4DCB2BD99E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{051CFF0B-1477-4853-B0FA-E4DCB2BD99E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{051CFF0B-1477-4853-B0FA-E4DCB2BD99E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{051CFF0B-1477-4853-B0FA-E4DCB2BD99E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0024012-6529-40BC-AB40-A97EBF0EF510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0024012-6529-40BC-AB40-A97EBF0EF510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0024012-6529-40BC-AB40-A97EBF0EF510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0024012-6529-40BC-AB40-A97EBF0EF510}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,11 +5,11 @@ using AutoMapper;
 
 namespace Integration.Synchronization.Abstract
 {
-    public class BaseSyncronizer
+    public class BaseSynchronizer
     {
         protected readonly IMapper Mapper;
 
-        public BaseSyncronizer(IMapper mapper)
+        public BaseSynchronizer(IMapper mapper)
         {
             Mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }

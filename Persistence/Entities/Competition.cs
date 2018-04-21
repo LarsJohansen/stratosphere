@@ -16,6 +16,8 @@ namespace Persistence.Entities
 
         public bool Enabled { get; set; }
 
+        public int ExternalId { get; set; }
+
         public virtual ICollection<UserLeague> UserLeagues { get; set; }
 
         public virtual ICollection<Team> Teams { get; set; }

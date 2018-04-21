@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Integration.Models
+namespace Integration.FootballDataOrgApi.FootballDataDto
 {
     public class CompetitionDto
     {

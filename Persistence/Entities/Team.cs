@@ -10,6 +10,14 @@ namespace Persistence.Entities
 
         public string Name { get; set; }
 
+        public string Code { get; set; }
+
+        public string CrestUri { get; set; }
+
+        public int ExternalId { get; set; }
+
+
+
         public Int64 FkCompetition { get; set; }
 
         public Int64 FkGroup { get; set; }

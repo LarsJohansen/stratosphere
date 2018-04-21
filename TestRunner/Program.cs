@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Integration.FootballDataDto;
-using Integration.Models;
+using Integration.FootballDataOrgApi.FootballDataDto;
 using Integration.Tools;
 
 namespace TestRunner

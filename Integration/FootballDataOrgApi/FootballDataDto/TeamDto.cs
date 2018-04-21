@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Integration.FootballDataDto
+namespace Integration.FootballDataOrgApi.FootballDataDto
 {
     public class TeamDto
     {

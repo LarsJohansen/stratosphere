@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
+using Persistence.Entities;
 
 namespace Integration.FootballDataOrgApi.Mappings
 {
@@ -11,7 +12,7 @@ namespace Integration.FootballDataOrgApi.Mappings
         public MappingsProfile()
         {
             CreateMap<Standing, Group>()
-                .ForMember(dest => dest.LeagueCaption, opt => opt.MapFrom(src => src.Group));
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Group));
 
         }
     }

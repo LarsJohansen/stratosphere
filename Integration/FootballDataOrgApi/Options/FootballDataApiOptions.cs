@@ -13,6 +13,8 @@ namespace Integration.FootballDataOrgApi.Options
         public string CompetitionEndpoint { get; set; }
 
         public string LeagueTableEndpoint { get; set; }
-     
+
+        public string ApiKey { get; set; } = Environment.GetEnvironmentVariable("FOOTBALLDATAAPIKEY");
+
     }
 }

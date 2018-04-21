@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Integration.Tools.Abstract;
 
 namespace Integration.Tools
 {
-    public class ApiHttpClient
+    public class ApiHttpClient : IApiHttpClient
     {
         public T GetDeleteRequest<T>(string url,  bool isDeleteRequest, Dictionary<string, string> additionalHealders = null)
         {
@@ -18,7 +19,7 @@ namespace Integration.Tools
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                AddAdditionalHeaders<T>(additionalHealders, httpClient);
+                AddAdditionalHeaders(additionalHealders, httpClient);
 
                 var response = (isDeleteRequest) ? httpClient.DeleteAsync(url).Result : httpClient.GetAsync(url).Result;
 
@@ -32,25 +33,16 @@ namespace Integration.Tools
             }
         }
 
-        private static void AddAdditionalHeaders<T>(Dictionary<string, string> additionalHealders, HttpClient httpClient)
-        {
-            if (additionalHealders != null)
-            {
-                foreach (var additionalHeader in additionalHealders)
-                {
-                    httpClient.DefaultRequestHeaders.Add(additionalHeader.Key, additionalHeader.Value);
-                }
-            }
-        }
+     
 
-        public TReturnDto PostPutRequest<TReturnDto, TPostDto>(TPostDto data, string url, bool isPutRequest = false)
+        public TReturnDto PostPutRequest<TReturnDto, TPostDto>(string url, TPostDto data, bool isPutRequest, Dictionary<string, string> additionalHeaders = null)
         {
      
             using (var httpClient = new HttpClient())
             {
                 httpClient.DefaultRequestHeaders.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
+                AddAdditionalHeaders(additionalHeaders, httpClient);
                 var jsonContent = JsonConvert.SerializeObject(data);
                 var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
@@ -86,6 +78,15 @@ namespace Integration.Tools
             throw new RestApiException { ReturnCode = restApiErrorMessage.statusCode.ToString(), ReturnMessage = restApiErrorMessage.Message };
         }
 
-       
+        private static void AddAdditionalHeaders(Dictionary<string, string> additionalHealders, HttpClient httpClient)
+        {
+            if (additionalHealders != null)
+            {
+                foreach (var additionalHeader in additionalHealders)
+                {
+                    httpClient.DefaultRequestHeaders.Add(additionalHeader.Key, additionalHeader.Value);
+                }
+            }
+        }
     }
 }

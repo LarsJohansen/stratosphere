@@ -54,7 +54,7 @@ namespace TestRunner
             }
             catch (RestApiException restEx)
             {
-                Console.WriteLine($"RestApiException Code: {restEx.ReturnCode} - Message: {restEx.Message}");
+                Console.WriteLine($"RestApiException Code: {restEx.StatusCode} - Message: {restEx.Message}");
             }
             catch (Exception ex)
             {

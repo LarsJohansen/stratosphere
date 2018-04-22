@@ -75,7 +75,7 @@ namespace Integration.Tools
                 throw new Exception($"Could not deserialize into RestApiException\nErrorResponse: {errorResponse}\n" +
                                     $"Exception: {ex}");
             }
-            throw new RestApiException { ReturnCode = restApiErrorMessage.statusCode.ToString(), ReturnMessage = restApiErrorMessage.Message };
+            throw new RestApiException { StatusCode  = response.StatusCode, ReturnMessage = restApiErrorMessage.Error };
         }
 
         private static void AddAdditionalHeaders(Dictionary<string, string> additionalHealders, HttpClient httpClient)

@@ -1,4 +1,4 @@
-﻿namespace Integration.Synchronization
+﻿namespace Integration.Synchronization.Abstract
 {
     public interface ICompetitionStructureSynchController
     {

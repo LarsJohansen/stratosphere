@@ -5,10 +5,12 @@ using Integration.FootballDataOrgApi.FootballDataDto;
 using Integration.FootballDataOrgApi.Options;
 using Integration.Synchronization;
 using Integration.Synchronization.Abstract;
+using Integration.Tools;
 using Integration.Tools.Abstract;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Persistence;
 using Persistence.Abstract;
 using Serilog;
 using Serilog.Events;
@@ -18,27 +20,33 @@ namespace SynchronizationRunner
     class Program
     {
         private static IConfigurationRoot _config;
-
+        private static IServiceProvider _serviceProvider;
 
         static void Main(string[] args)
         {
 
-            _config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
+            try
+            {
+                _config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
+                    .Build();
 
-            var serviceCollection = new ServiceCollection();
-            var serviceProvider = ConfigureServices(serviceCollection);
-            ConfigureLogger();
-            serviceCollection.AddSingleton(_config);
+                var serviceCollection = new ServiceCollection();
+                _serviceProvider = ConfigureServices(serviceCollection);
+                ConfigureLogger();
+                serviceCollection.AddSingleton(_config);
 
-            
 
-            var synchronizer = serviceProvider.GetService<IGroupSynchronizer>();
-            var group  = synchronizer.GetGroupFromStanding(new Standing {Group = "A"});
+                var syncController = _serviceProvider.GetService<ICompetitionStructureSynchController>();
+                syncController.Run("WC", 2018);
 
-            Console.WriteLine($"Group name: {group.Name}");
-            Console.ReadKey();
+                Console.ReadKey();
+
+            }
+            catch (Exception ex)
+            {
+               Console.WriteLine(ex.ToString());
+            }
 
         }
 
@@ -61,8 +69,10 @@ namespace SynchronizationRunner
 
             //Integration
             serviceCollection.AddScoped<IGroupSynchronizer, GroupSynchronizer>();
-            serviceCollection.AddScoped<IApiHttpClient, IApiHttpClient>();
-            serviceCollection.AddScoped<IStratosphereUnitOfWork, IStratosphereUnitOfWork>();
+            serviceCollection.AddScoped<IApiHttpClient, ApiHttpClient>();
+            serviceCollection.AddScoped<IStratosphereUnitOfWork, StratosphereUnitOfWork>();
+            serviceCollection.AddScoped<ICompetitionStructureSynchController, CompetitionStructureSynchController>();
+            serviceCollection.AddScoped<ICompetitionSynchronizer, CompetitionSynchronizer>();
            
             var serviceProvider = serviceCollection.BuildServiceProvider();
 

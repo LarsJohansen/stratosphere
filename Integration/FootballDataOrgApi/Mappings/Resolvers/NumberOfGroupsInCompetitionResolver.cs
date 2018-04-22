@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
-using Integration.FootballDataOrgApi.Options;
-using Integration.Synchronization.Tools;
-using Integration.Tools.Abstract;
-using Microsoft.Extensions.Options;
+using Integration.FootballDataOrgApi.Synchronization.Tools;
 using Persistence.Entities;
 
 namespace Integration.FootballDataOrgApi.Mappings.Resolvers
 {
-   
+
     public class NumberOfGroupsInCompetitionResolver : IValueResolver<CompetitionDto, CompetitionSetup, int>
     {
     

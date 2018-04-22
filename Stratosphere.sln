@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration", "Integration\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchronizationRunner", "SynchronizationRunner\SynchronizationRunner.csproj", "{F0024012-6529-40BC-AB40-A97EBF0EF510}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{AEB3B703-9073-420D-A7CE-B538B272C072}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{F0024012-6529-40BC-AB40-A97EBF0EF510}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0024012-6529-40BC-AB40-A97EBF0EF510}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0024012-6529-40BC-AB40-A97EBF0EF510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEB3B703-9073-420D-A7CE-B538B272C072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEB3B703-9073-420D-A7CE-B538B272C072}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEB3B703-9073-420D-A7CE-B538B272C072}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEB3B703-9073-420D-A7CE-B538B272C072}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

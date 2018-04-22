@@ -3,7 +3,7 @@ using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Persistence.Abstract;
 
-namespace Integration.Synchronization.CompetitionStructure.Abstract
+namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure.Abstract
 {
     public partial class BaseSynchronizer
     {

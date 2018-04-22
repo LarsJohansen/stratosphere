@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
-using Integration.Synchronization.Tools;
 using Persistence.Abstract;
 using Persistence.Entities;
 

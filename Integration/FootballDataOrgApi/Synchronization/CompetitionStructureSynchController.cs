@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
 using Integration.FootballDataOrgApi.Options;
-using Integration.Synchronization.CompetitionStructure.Abstract;
+using Integration.FootballDataOrgApi.Synchronization.CompetitionStructure.Abstract;
 using Integration.Tools;
 using Integration.Tools.Abstract;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Persistence.Abstract;
 using Persistence.Entities;
 
-namespace Integration.Synchronization
+namespace Integration.FootballDataOrgApi.Synchronization
 {
     public class CompetitionStructureSynchController : ICompetitionStructureSynchController
     {

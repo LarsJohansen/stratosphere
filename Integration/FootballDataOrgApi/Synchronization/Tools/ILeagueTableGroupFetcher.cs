@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using Integration.FootballDataOrgApi.FootballDataDto;
 
-namespace Integration.Synchronization.Tools
+namespace Integration.FootballDataOrgApi.Synchronization.Tools
 {
     public interface ILeagueTableGroupFetcher
     {

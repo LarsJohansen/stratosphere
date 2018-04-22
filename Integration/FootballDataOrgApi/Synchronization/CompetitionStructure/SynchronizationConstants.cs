@@ -1,4 +1,4 @@
-﻿namespace Integration.Synchronization.CompetitionStructure
+﻿namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure
 {
     class SynchronizationConstants
     {

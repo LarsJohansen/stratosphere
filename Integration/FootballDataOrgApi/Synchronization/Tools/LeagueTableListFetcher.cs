@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using Integration.FootballDataOrgApi.FootballDataDto;
 using Integration.FootballDataOrgApi.Options;
 using Integration.Tools.Abstract;
 using Microsoft.Extensions.Options;
 
-namespace Integration.Synchronization.Tools
+namespace Integration.FootballDataOrgApi.Synchronization.Tools
 {
     public class LeagueTableGroupFetcher : ILeagueTableGroupFetcher
     {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
-using Integration.Synchronization.CompetitionStructure.Abstract;
-using Integration.Synchronization.Tools;
+using Integration.FootballDataOrgApi.Synchronization.CompetitionStructure.Abstract;
+using Integration.FootballDataOrgApi.Synchronization.Tools;
 using Microsoft.Extensions.Logging;
 using Persistence.Abstract;
 using Persistence.Entities;
 
-namespace Integration.Synchronization.CompetitionStructure
+namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure
 {
     public class GroupSynchronizer : BaseSynchronizer, IGroupSynchronizer
     {

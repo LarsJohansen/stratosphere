@@ -1,6 +1,6 @@
 ﻿using Persistence.Entities;
 
-namespace Integration.Synchronization.CompetitionStructure.Abstract
+namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure.Abstract
 {
     public interface IGroupSynchronizer
     {

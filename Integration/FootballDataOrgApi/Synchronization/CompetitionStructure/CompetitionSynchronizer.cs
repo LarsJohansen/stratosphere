@@ -1,12 +1,12 @@
 ﻿using System;
 using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
-using Integration.Synchronization.CompetitionStructure.Abstract;
+using Integration.FootballDataOrgApi.Synchronization.CompetitionStructure.Abstract;
 using Microsoft.Extensions.Logging;
 using Persistence.Abstract;
 using Persistence.Entities;
 
-namespace Integration.Synchronization.CompetitionStructure
+namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure
 {
     public class CompetitionSynchronizer : BaseSynchronizer, ICompetitionSynchronizer
     {
@@ -35,9 +35,9 @@ namespace Integration.Synchronization.CompetitionStructure
                 UpdateExistingCompetition(competitionDto, competition);
                 _competitionSetupSynchronizer.UpdateExisitingCompetitionSetup(competitionDto, competition.Id);
             }
-            
+
             StratosphereUnitOfWork.Complete();
-            
+
             return competition;
            
 

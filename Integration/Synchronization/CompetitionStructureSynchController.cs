@@ -12,6 +12,7 @@ using Integration.Tools.Abstract;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Persistence.Abstract;
+using Persistence.Entities;
 
 namespace Integration.Synchronization
 {
@@ -19,19 +20,23 @@ namespace Integration.Synchronization
     {
         private readonly FootballDataApiOptions _apiOptions;
         private readonly ICompetitionSynchronizer _competitionSynchronizer;
+        private readonly IGroupSynchronizer _groupSynchronizer;
+        private readonly ITeamSynchronizer _teamSynchronizer;
         private readonly IApiHttpClient _apiHttpClient;
         private readonly ILogger _logger;
         
 
-        public CompetitionStructureSynchController(IOptions<FootballDataApiOptions> apiOptions, ICompetitionSynchronizer competitionSynchronizer, IApiHttpClient apiHttpClient,
-            ILogger<BaseSynchronizer> logger) 
+        public CompetitionStructureSynchController(IOptions<FootballDataApiOptions> apiOptions, ICompetitionSynchronizer competitionSynchronizer,
+            IGroupSynchronizer groupSynchronizer, ITeamSynchronizer teamSynchronizer, IApiHttpClient apiHttpClient,
+            ILogger<CompetitionStructureSynchController> logger) 
         {
             _apiOptions = apiOptions?.Value ?? throw new ArgumentNullException(nameof(apiOptions));
             _competitionSynchronizer = competitionSynchronizer ??
                                        throw new ArgumentNullException(nameof(competitionSynchronizer));
+            _groupSynchronizer = groupSynchronizer ?? throw new ArgumentNullException(nameof(groupSynchronizer));
             _apiHttpClient = apiHttpClient ?? throw new ArgumentNullException(nameof(apiOptions));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-           
+            _teamSynchronizer = teamSynchronizer ?? throw new ArgumentNullException(nameof(teamSynchronizer));
 
 
         }
@@ -39,30 +44,20 @@ namespace Integration.Synchronization
         public void Run(string leagueCategory, uint year)
         {
             
-            var url = $"{_apiOptions.BaseUri}{_apiOptions.CompetitionEndpoint}?season={year}";
+            var competitionUrl = $"{_apiOptions.BaseUri}{_apiOptions.CompetitionEndpoint}?season={year}";
            
             try
             {
-                _logger.LogDebug($"Fetching competitions from {url}");
-                var competitions = _apiHttpClient.GetDeleteRequest<List<CompetitionDto>>(url, false, _apiOptions.HeaderCollection);
+                var competition = SynchCompetitionWithSetup(leagueCategory, competitionUrl);
 
-                _logger.LogDebug($"Got {competitions.Count} competitions");
-
-                var competition = competitions.SingleOrDefault(c => c.League == leagueCategory);
-
-                if (competition == null)
+                if (competition != null)
                 {
-                    _logger.LogDebug($"No competition with leagueCategory {leagueCategory} found");
-                    return;
+                   
+                    _groupSynchronizer.CreateUpdateGroups(competition);
+                    _teamSynchronizer.CreateTeams(competition);
+
                 }
-
-                _logger.LogDebug($"Competiton with id {competition.Id} has leagueCategory {leagueCategory}." +  
-                                 " Creating or updating competition and setup");
-
-                var synchResult = _competitionSynchronizer.CreateUpdateCompetition(competition);
-
-                _logger.LogDebug($"Create or Update resulted in {synchResult.ToString()}");
-
+          
             }
             catch (RestApiException restEx)
             {
@@ -73,6 +68,30 @@ namespace Integration.Synchronization
            
 
             
+        }
+
+        private Competition SynchCompetitionWithSetup(string leagueCategory, string url)
+        {
+            _logger.LogDebug($"Fetching competitions from {url}");
+            var competitions = _apiHttpClient.GetDeleteRequest<List<CompetitionDto>>(url, false, _apiOptions.HeaderCollection);
+
+            _logger.LogDebug($"Got {competitions.Count} competitions");
+
+            var competitionDto = competitions.SingleOrDefault(c => c.League == leagueCategory);
+
+            if (competitionDto == null)
+            {
+                _logger.LogDebug($"No competition with leagueCategory {leagueCategory} found");
+                return null;
+            }
+
+            _logger.LogDebug($"Competiton with id {competitionDto.Id} has leagueCategory {leagueCategory}." +
+                             " Creating or updating competition and setup");
+
+            var competition  = _competitionSynchronizer.CreateUpdateCompetition(competitionDto);
+            
+            return competition;
+
         }
     }
 }

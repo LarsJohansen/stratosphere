@@ -10,5 +10,6 @@ namespace Integration.FootballDataOrgApi.FootballDataDto
 
         public string ShortName { get; set; }
 
+        public string crestUrl { get; set; }
     }
 }

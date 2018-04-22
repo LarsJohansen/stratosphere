@@ -5,6 +5,7 @@ using Integration.FootballDataOrgApi.FootballDataDto;
 using Integration.FootballDataOrgApi.Options;
 using Integration.Synchronization;
 using Integration.Synchronization.Abstract;
+using Integration.Synchronization.Tools;
 using Integration.Tools;
 using Integration.Tools.Abstract;
 using Microsoft.EntityFrameworkCore;
@@ -55,10 +56,11 @@ namespace SynchronizationRunner
         private static IServiceProvider ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton(new LoggerFactory()
-                .AddConsole()
                 .AddSerilog()
+                .AddConsole(LogLevel.Debug)
+            
             );
-            serviceCollection.AddLogging();
+        
             //3rd party
             serviceCollection.AddLogging();
             serviceCollection.AddAutoMapper();
@@ -78,7 +80,8 @@ namespace SynchronizationRunner
             serviceCollection.AddScoped<ICompetitionStructureSynchController, CompetitionStructureSynchController>();
             serviceCollection.AddScoped<ICompetitionSynchronizer, CompetitionSynchronizer>();
             serviceCollection.AddScoped<ICompetitionSetupSynchronizer, CompetitionSetupSynchronizer>();
-
+            serviceCollection.AddScoped<ILeagueTableGroupFetcher, LeagueTableGroupFetcher>();
+            serviceCollection.AddScoped<ITeamSynchronizer, TeamSynchronizer>();
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
 

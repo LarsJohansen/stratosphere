@@ -5,6 +5,7 @@ using System.Text;
 using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
 using Integration.FootballDataOrgApi.Options;
+using Integration.Synchronization.Tools;
 using Integration.Tools.Abstract;
 using Microsoft.Extensions.Options;
 using Persistence.Entities;
@@ -14,31 +15,26 @@ namespace Integration.FootballDataOrgApi.Mappings.Resolvers
    
     public class NumberOfGroupsInCompetitionResolver : IValueResolver<CompetitionDto, CompetitionSetup, int>
     {
-        private readonly IApiHttpClient _apiHttpClient;
-        private readonly FootballDataApiOptions _apiOptions;
+    
+        private readonly ILeagueTableGroupFetcher _leagueTableGroupFetcher;
 
-        public NumberOfGroupsInCompetitionResolver(IApiHttpClient apiHttpClient, IOptions<FootballDataApiOptions> options)
+        public NumberOfGroupsInCompetitionResolver(ILeagueTableGroupFetcher leagueTableGroupFetcher)
         {
-            _apiHttpClient = apiHttpClient ?? throw new ArgumentNullException(nameof(apiHttpClient));
-            _apiOptions = options?.Value ?? throw new ArgumentNullException(nameof(options));
+            _leagueTableGroupFetcher = leagueTableGroupFetcher ?? throw new ArgumentNullException(nameof(leagueTableGroupFetcher));
+          
         }
 
    
-
         public int Resolve(CompetitionDto source, CompetitionSetup destination, int destMember, ResolutionContext context)
         {
-            var url = $"{_apiOptions.BaseUri}{_apiOptions.LeagueTableEndpoint.Replace("0", source.Id.ToString())}";
-            var leagueTables = _apiHttpClient.GetDeleteRequest<LeagueTable>(url, false, _apiOptions.HeaderCollection);
+            var (leagueTables, allGroupStandings) = _leagueTableGroupFetcher.GetLeagueStandings(source.Id);
 
             var numberOfGroups = 0;
 
-            var enumerableProps = leagueTables.Standings.GetType().GetProperties().Where(p => p.PropertyType == typeof(List<Standing>));
-
-            foreach (var propertyInfo in enumerableProps)
+            foreach (var groupStanding in allGroupStandings)
             {
-                var groupStanding = (List<Standing>) propertyInfo.GetValue(source, null);
-
-                if (groupStanding?.Count > 0)
+ 
+                if (groupStanding?.Count() > 0)
                 {
                     numberOfGroups++;
                 }

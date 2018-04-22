@@ -20,29 +20,27 @@ namespace Integration.Synchronization
                                             throw new ArgumentNullException(nameof(competitionSetupSynchronizer));
         }
 
-        public SynchrnoizationResult CreateUpdateCompetition(CompetitionDto competitionDto)
+        public Competition CreateUpdateCompetition(CompetitionDto competitionDto)
         {
 
-            var isNew = false; 
-            var exisitingCompetition = StratosphereUnitOfWork.Competitions.SingleOrDefault(c => c.ExternalId == competitionDto.Id);
+            var competition = StratosphereUnitOfWork.Competitions.SingleOrDefault(c => c.ExternalId == competitionDto.Id);
 
-            if (exisitingCompetition == null)
+            if (competition == null)
             {
                 Logger.LogDebug($"Could not find exisiting competition with ExternalId {competitionDto.Id}, creating new..");
-                isNew = true;
-                var competition = CreateNewCompetition(competitionDto);
+                competition = CreateNewCompetition(competitionDto);
                 _competitionSetupSynchronizer.CreateCompetitionSetup(competitionDto, competition.Id);
             }
             else
             {
-                Logger.LogDebug($"Found exisiting competition with ExternalId {competitionDto.Id}, Entity id: {exisitingCompetition.Id}. Updating..");
-                UpdateExistingCompetition(competitionDto, exisitingCompetition);
-                _competitionSetupSynchronizer.UpdateExisitingCompetitionSetup(competitionDto, exisitingCompetition.Id);
+                Logger.LogDebug($"Found exisiting competition with ExternalId {competitionDto.Id}, Entity id: {competition.Id}. Updating..");
+                UpdateExistingCompetition(competitionDto, competition);
+                _competitionSetupSynchronizer.UpdateExisitingCompetitionSetup(competitionDto, competition.Id);
             }
             
             StratosphereUnitOfWork.Complete();
             
-            return (isNew) ? SynchrnoizationResult.CreatedNew : SynchrnoizationResult.UpdatedExisting;
+            return competition;
            
 
 

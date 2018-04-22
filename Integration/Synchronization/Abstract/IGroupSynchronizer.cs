@@ -5,6 +5,6 @@ namespace Integration.Synchronization.Abstract
 {
     public interface IGroupSynchronizer
     {
-        Group GetGroupFromStanding(Standing standing);
+        void CreateUpdateGroups(Competition competition);
     }
 }

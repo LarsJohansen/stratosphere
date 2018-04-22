@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AutoMapper;
-using Integration.FootballDataOrgApi.FootballDataDto;
-using Integration.Synchronization.Abstract;
+using Integration.Synchronization.CompetitionStructure.Abstract;
 using Integration.Synchronization.Tools;
 using Microsoft.Extensions.Logging;
 using Persistence.Abstract;
 using Persistence.Entities;
 
-namespace Integration.Synchronization
+namespace Integration.Synchronization.CompetitionStructure
 {
     public class GroupSynchronizer : BaseSynchronizer, IGroupSynchronizer
     {
         private readonly ILeagueTableGroupFetcher _leagueTableGroupFetcher;
-        public GroupSynchronizer(ILeagueTableGroupFetcher leagueTableGroupFetcher, IStratosphereUnitOfWork stratosphereUnitOfWork,IMapper mapper, ILogger<GroupSynchronizer> logger) : base(stratosphereUnitOfWork, mapper, logger)
+        public GroupSynchronizer(ILeagueTableGroupFetcher leagueTableGroupFetcher, IStratosphereUnitOfWork stratosphereUnitOfWork,
+            IMapper mapper, ILogger<BaseSynchronizer> logger) : base(stratosphereUnitOfWork, mapper, logger)
         {
             _leagueTableGroupFetcher = leagueTableGroupFetcher ??
                                        throw new ArgumentNullException(nameof(leagueTableGroupFetcher));
@@ -26,6 +24,7 @@ namespace Integration.Synchronization
             var (leagueTable, allGroupStandings) = _leagueTableGroupFetcher.GetLeagueStandings(competition.ExternalId);
             var existingGroups = StratosphereUnitOfWork.Groups.Find(g => g.FkCompetition == competition.Id).Select(g => g.Name).ToList();
             
+            Logger.LogDebug($"Found {existingGroups.Count} exisiting groups");
 
             foreach (var groupStanding in allGroupStandings)
             {
@@ -38,6 +37,7 @@ namespace Integration.Synchronization
                     {
                         continue;
                     }
+                    Logger.LogDebug($"Adding group {groupName}");
                     StratosphereUnitOfWork.Groups.Add(new Group
                     {
                         Name = groupName, 

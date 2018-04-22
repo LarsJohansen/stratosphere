@@ -10,7 +10,7 @@ using Persistence.Entities;
 
 namespace Integration.FootballDataOrgApi.Mappings.Resolvers
 {
-    public class TeamGroupResolver : IValueResolver<Standing, Team, long>
+    public class TeamGroupResolver : IValueResolver<StandingDto, Team, long>
     {
 
         private readonly IStratosphereUnitOfWork _stratosphereUnitOfWork;
@@ -23,7 +23,7 @@ namespace Integration.FootballDataOrgApi.Mappings.Resolvers
         }
 
 
-        public long Resolve(Standing source, Team destination, long destMember, ResolutionContext context)
+        public long Resolve(StandingDto source, Team destination, long destMember, ResolutionContext context)
         {
             return 0;
         }

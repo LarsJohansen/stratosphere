@@ -6,7 +6,7 @@ using System.Text;
 using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
 using Integration.FootballDataOrgApi.Options;
-using Integration.Synchronization.Abstract;
+using Integration.Synchronization.CompetitionStructure.Abstract;
 using Integration.Tools;
 using Integration.Tools.Abstract;
 using Microsoft.Extensions.Logging;
@@ -43,7 +43,7 @@ namespace Integration.Synchronization
 
         public void Run(string leagueCategory, uint year)
         {
-            
+            _logger.LogDebug("Calling URL CompetitionEndpoint");
             var competitionUrl = $"{_apiOptions.BaseUri}{_apiOptions.CompetitionEndpoint}?season={year}";
            
             try
@@ -66,7 +66,7 @@ namespace Integration.Synchronization
                 throw;
             }
            
-
+            _logger.LogDebug("Done synchronizing Competitions, CompetitionSetup, Groups and Teams");
             
         }
 

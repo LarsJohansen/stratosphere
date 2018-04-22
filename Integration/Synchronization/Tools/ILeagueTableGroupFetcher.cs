@@ -6,6 +6,6 @@ namespace Integration.Synchronization.Tools
 {
     public interface ILeagueTableGroupFetcher
     {
-        (LeagueTable, IEnumerable<IEnumerable<Standing>>) GetLeagueStandings(long competitionId);
+        (LeagueTableDto, IEnumerable<IEnumerable<StandingDto>>) GetLeagueStandings(long competitionId);
     }
 }

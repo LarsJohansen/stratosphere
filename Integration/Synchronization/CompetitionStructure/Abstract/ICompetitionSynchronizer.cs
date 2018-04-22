@@ -1,7 +1,7 @@
 ﻿using Integration.FootballDataOrgApi.FootballDataDto;
 using Persistence.Entities;
 
-namespace Integration.Synchronization.Abstract
+namespace Integration.Synchronization.CompetitionStructure.Abstract
 {
     public interface ICompetitionSynchronizer
     {

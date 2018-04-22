@@ -12,19 +12,20 @@ namespace Integration.FootballDataOrgApi.Mappings
     {
         public MappingsProfile()
         {
-            CreateMap<Standing, Group>()
+            CreateMap<StandingDto, Group>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Group));
 
             CreateMap<CompetitionDto, Competition>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.League))
                 .ForMember(dest => dest.CreatedAt, opt => opt.UseValue(DateTime.Now))
                 .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => $"{src.Caption} {src.Year}"));
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => $"{src.Caption} {src.Year}"))
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             CreateMap<CompetitionDto, CompetitionSetup>()
                 .ForMember(dest => dest.NumberOfGroups, opt => opt.ResolveUsing<NumberOfGroupsInCompetitionResolver>());
 
-            CreateMap<Standing, Team>()
+            CreateMap<StandingDto, Team>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Team))
                 .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.TeamId))
                 .ForMember(dest => dest.FkGroup, opt => opt.ResolveUsing<TeamGroupResolver>())

@@ -5,7 +5,7 @@ using System.Text;
 namespace Integration.FootballDataOrgApi.FootballDataDto
 {
    
-    public class Standing
+    public class StandingDto
     {
         public string Group { get; set; }
         public int Rank { get; set; }

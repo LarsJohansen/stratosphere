@@ -22,20 +22,20 @@ namespace Integration.Synchronization.Tools
             _apiOptions = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
-        public (LeagueTable, IEnumerable<IEnumerable<Standing>>) GetLeagueStandings(long competitionId)
+        public (LeagueTableDto, IEnumerable<IEnumerable<StandingDto>>) GetLeagueStandings(long competitionId)
         {
             var url = $"{_apiOptions.BaseUri}{_apiOptions.LeagueTableEndpoint.Replace("0", competitionId.ToString())}";
-            var leagueTables = _apiHttpClient.GetDeleteRequest<LeagueTable>(url, false, _apiOptions.HeaderCollection);
+            var leagueTables = _apiHttpClient.GetDeleteRequest<LeagueTableDto>(url, false, _apiOptions.HeaderCollection);
 
-            var enumerableProps = leagueTables.Standings.GetType().GetProperties().Where(p => p.PropertyType == typeof(List<Standing>));
+            var enumerableProps = leagueTables.Standings.GetType().GetProperties().Where(p => p.PropertyType == typeof(List<StandingDto>));
 
            
-            var standings = new List<List<Standing>>();
+            var standings = new List<List<StandingDto>>();
          
 
             foreach (var propertyInfo in enumerableProps)
             {
-                var groupStanding = (List<Standing>)propertyInfo.GetValue(leagueTables.Standings, null);
+                var groupStanding = (List<StandingDto>)propertyInfo.GetValue(leagueTables.Standings, null);
 
                 if (groupStanding?.Count > 0)
                 {

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
-using Persistence;
 using Persistence.Abstract;
 
-namespace Integration.Synchronization.Abstract
+namespace Integration.Synchronization.CompetitionStructure.Abstract
 {
     public partial class BaseSynchronizer
     {

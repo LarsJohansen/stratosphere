@@ -1,6 +1,6 @@
 ﻿using Integration.FootballDataOrgApi.FootballDataDto;
 
-namespace Integration.Synchronization
+namespace Integration
 {
     public interface ICompetitionSetupSynchronizer
     {

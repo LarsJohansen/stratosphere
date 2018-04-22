@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Integration.FootballDataOrgApi.FootballDataDto
 {
-    public class LeagueTable
+    public class LeagueTableDto
     {
         public string LeagueCaption { get; set; }
 
         public int MatchDay { get; set; }
 
-        public GroupStandings Standings { get; set; }
+        public GroupStandingsDto Standings { get; set; }
     
     }
 }

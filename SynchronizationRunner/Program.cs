@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
 using AutoMapper;
+using Integration;
 using Integration.FootballDataOrgApi.FootballDataDto;
 using Integration.FootballDataOrgApi.Options;
 using Integration.Synchronization;
-using Integration.Synchronization.Abstract;
+using Integration.Synchronization.CompetitionStructure;
+using Integration.Synchronization.CompetitionStructure.Abstract;
 using Integration.Synchronization.Tools;
 using Integration.Tools;
 using Integration.Tools.Abstract;
@@ -21,24 +23,15 @@ namespace SynchronizationRunner
 {
     class Program
     {
-        private static IConfigurationRoot _config;
-        private static IServiceProvider _serviceProvider;
 
         static void Main(string[] args)
         {
             try
             {
-                _config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
-                    .Build();
-
                 var serviceCollection = new ServiceCollection();
-                _serviceProvider = ConfigureServices(serviceCollection);
-                ConfigureLogger();
-                serviceCollection.AddSingleton(_config);
+                var serviceProvider = ConfigureServices(serviceCollection);
 
-
-                var syncController = _serviceProvider.GetService<ICompetitionStructureSynchController>();
+                var syncController = serviceProvider.GetService<ICompetitionStructureSynchController>();
                 syncController.Run("WC", 2018);
 
        
@@ -55,14 +48,27 @@ namespace SynchronizationRunner
 
         private static IServiceProvider ConfigureServices(IServiceCollection serviceCollection)
         {
+            var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            // Add console logging
             serviceCollection.AddSingleton(new LoggerFactory()
+                .AddConsole(configuration.GetSection("Logging"))
                 .AddSerilog()
-                .AddConsole(LogLevel.Debug)
-            
-            );
-        
-            //3rd party
+                .AddDebug());
             serviceCollection.AddLogging();
+
+            // Add Serilog logging           
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .WriteTo.RollingFile(configuration["Serilog:LogFile"])
+                .CreateLogger();
+
+            serviceCollection.AddSingleton(configuration);
+        
+       
             serviceCollection.AddAutoMapper();
 
             //DB
@@ -71,7 +77,7 @@ namespace SynchronizationRunner
                 options => options.UseMySql(conString));
 
             //Options
-            serviceCollection.Configure<FootballDataApiOptions>(_config.GetSection("footballDataApiOptions"));
+            serviceCollection.Configure<FootballDataApiOptions>(configuration.GetSection("footballDataApiOptions"));
 
             //Integration
             serviceCollection.AddScoped<IGroupSynchronizer, GroupSynchronizer>();
@@ -95,7 +101,6 @@ namespace SynchronizationRunner
                 .WriteTo.File("SynchLog.log", LogEventLevel.Debug, fileSizeLimitBytes: 5000000,
                     rollOnFileSizeLimit: true,
                     flushToDiskInterval: TimeSpan.FromSeconds(1))
-                .WriteTo.Console()
                 .CreateLogger();
         }
     }

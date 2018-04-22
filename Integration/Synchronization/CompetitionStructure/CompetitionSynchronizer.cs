@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
-using Integration.Synchronization.Abstract;
+using Integration.Synchronization.CompetitionStructure.Abstract;
 using Microsoft.Extensions.Logging;
 using Persistence.Abstract;
 using Persistence.Entities;
 
-namespace Integration.Synchronization
+namespace Integration.Synchronization.CompetitionStructure
 {
     public class CompetitionSynchronizer : BaseSynchronizer, ICompetitionSynchronizer
     {
         private readonly ICompetitionSetupSynchronizer _competitionSetupSynchronizer;
         public CompetitionSynchronizer(ICompetitionSetupSynchronizer competitionSetupSynchronizer, IStratosphereUnitOfWork stratosphereUnitOfWork, IMapper mapper,
-            ILogger<CompetitionSynchronizer> logger) : base(stratosphereUnitOfWork, mapper, logger)
+            ILogger<BaseSynchronizer> logger) : base(stratosphereUnitOfWork, mapper, logger)
         {
             _competitionSetupSynchronizer = competitionSetupSynchronizer ??
                                             throw new ArgumentNullException(nameof(competitionSetupSynchronizer));

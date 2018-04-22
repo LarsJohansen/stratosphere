@@ -1,6 +1,6 @@
 ﻿using Persistence.Entities;
 
-namespace Integration.Synchronization
+namespace Integration.Synchronization.CompetitionStructure.Abstract
 {
     public interface ITeamSynchronizer
     {

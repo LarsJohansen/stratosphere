@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
-using Integration.Synchronization.Abstract;
+using Integration.Synchronization.CompetitionStructure.Abstract;
 using Microsoft.Extensions.Logging;
 using Persistence.Abstract;
 using Persistence.Entities;
 
-namespace Integration.Synchronization
+namespace Integration.Synchronization.CompetitionStructure
 {
     public class CompetitionSetupSynchronizer : BaseSynchronizer, ICompetitionSetupSynchronizer
     {

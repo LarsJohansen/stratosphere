@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration", "Integration\Integration.csproj", "{E889A57D-BD59-451B-9C88-71F17074A806}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchronizationRunner", "FootballDataSynchronizer\SynchronizationRunner.csproj", "{F0024012-6529-40BC-AB40-A97EBF0EF510}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchronizationRunner", "SynchronizationRunner\SynchronizationRunner.csproj", "{F0024012-6529-40BC-AB40-A97EBF0EF510}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

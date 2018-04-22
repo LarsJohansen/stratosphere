@@ -7,6 +7,7 @@ using Integration.Synchronization;
 using Integration.Synchronization.Abstract;
 using Integration.Tools;
 using Integration.Tools.Abstract;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -24,7 +25,6 @@ namespace SynchronizationRunner
 
         static void Main(string[] args)
         {
-
             try
             {
                 _config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
@@ -40,14 +40,16 @@ namespace SynchronizationRunner
                 var syncController = _serviceProvider.GetService<ICompetitionStructureSynchController>();
                 syncController.Run("WC", 2018);
 
-                Console.ReadKey();
-
+       
             }
             catch (Exception ex)
             {
-               Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString());
             }
-
+            finally
+            {
+                Console.ReadKey();
+            }
         }
 
         private static IServiceProvider ConfigureServices(IServiceCollection serviceCollection)
@@ -55,14 +57,16 @@ namespace SynchronizationRunner
             serviceCollection.AddSingleton(new LoggerFactory()
                 .AddConsole()
                 .AddSerilog()
-                );
+            );
             serviceCollection.AddLogging();
             //3rd party
             serviceCollection.AddLogging();
             serviceCollection.AddAutoMapper();
 
             //DB
-            
+            var conString = Environment.GetEnvironmentVariable("StratosphereConnectionString");
+            serviceCollection.AddDbContext<StratosphereContext>(
+                options => options.UseMySql(conString));
 
             //Options
             serviceCollection.Configure<FootballDataApiOptions>(_config.GetSection("footballDataApiOptions"));
@@ -73,7 +77,8 @@ namespace SynchronizationRunner
             serviceCollection.AddScoped<IStratosphereUnitOfWork, StratosphereUnitOfWork>();
             serviceCollection.AddScoped<ICompetitionStructureSynchController, CompetitionStructureSynchController>();
             serviceCollection.AddScoped<ICompetitionSynchronizer, CompetitionSynchronizer>();
-           
+            serviceCollection.AddScoped<ICompetitionSetupSynchronizer, CompetitionSetupSynchronizer>();
+
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
 
@@ -84,11 +89,11 @@ namespace SynchronizationRunner
         {
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
-                .WriteTo.File("SynchLog.log", LogEventLevel.Debug, fileSizeLimitBytes: 5000000, rollOnFileSizeLimit: true,
+                .WriteTo.File("SynchLog.log", LogEventLevel.Debug, fileSizeLimitBytes: 5000000,
+                    rollOnFileSizeLimit: true,
                     flushToDiskInterval: TimeSpan.FromSeconds(1))
                 .WriteTo.Console()
                 .CreateLogger();
-        
         }
     }
 }

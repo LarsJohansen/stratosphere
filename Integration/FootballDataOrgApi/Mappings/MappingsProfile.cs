@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using Integration.FootballDataOrgApi.FootballDataDto;
+using Integration.FootballDataOrgApi.Mappings.Resolvers;
 using Persistence.Entities;
 
 namespace Integration.FootballDataOrgApi.Mappings
@@ -20,7 +21,12 @@ namespace Integration.FootballDataOrgApi.Mappings
                 .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => $"{src.Caption} {src.Year}"));
 
+            CreateMap<CompetitionDto, CompetitionSetup>()
+                .ForMember(dest => dest.NumberOfGroups, opt => opt.ResolveUsing<NumberOfGroupsInCompetitionResolver>());
+
+
 
         }
     }
+
 }

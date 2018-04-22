@@ -10,9 +10,10 @@ namespace Persistence
     {
         public StratosphereContext CreateDbContext(string[] args)
         {
+            var conString = Environment.GetEnvironmentVariable("StratosphereConnectionString");
             var optionsBuilder = new DbContextOptionsBuilder<StratosphereContext>();
             optionsBuilder.UseMySql(
-                "Server=localhost;Database=stratosphere;Uid=root;Pwd=12345;");
+                conString);
 
             return new StratosphereContext(optionsBuilder.Options);
         }

@@ -12,7 +12,7 @@ namespace Integration.FootballDataOrgApi.FootballDataDto
         public string Team { get; set; }
         public int TeamId { get; set; }
         public int PlayedGames { get; set; }
-        public string CrestURI { get; set; }
+        public string CrestUri { get; set; }
         public int Points { get; set; }
         public int Goals { get; set; }
         public int GoalsAgainst { get; set; }

@@ -12,11 +12,12 @@ namespace Integration.Synchronization
 {
     public class CompetitionSynchronizer : BaseSynchronizer, ICompetitionSynchronizer
     {
-       
-        public CompetitionSynchronizer(IStratosphereUnitOfWork stratosphereUnitOfWork, IMapper mapper,
+        private readonly ICompetitionSetupSynchronizer _competitionSetupSynchronizer;
+        public CompetitionSynchronizer(ICompetitionSetupSynchronizer competitionSetupSynchronizer, IStratosphereUnitOfWork stratosphereUnitOfWork, IMapper mapper,
             ILogger<CompetitionSynchronizer> logger) : base(stratosphereUnitOfWork, mapper, logger)
         {
-
+            _competitionSetupSynchronizer = competitionSetupSynchronizer ??
+                                            throw new ArgumentNullException(nameof(competitionSetupSynchronizer));
         }
 
         public SynchrnoizationResult CreateUpdateCompetition(CompetitionDto competitionDto)
@@ -27,15 +28,20 @@ namespace Integration.Synchronization
 
             if (exisitingCompetition == null)
             {
-                CreateNewCompetition(competitionDto);
+                Logger.LogDebug($"Could not find exisiting competition with ExternalId {competitionDto.Id}, creating new..");
                 isNew = true;
+                var competition = CreateNewCompetition(competitionDto);
+                _competitionSetupSynchronizer.CreateCompetitionSetup(competitionDto, competition.Id);
             }
             else
             {
+                Logger.LogDebug($"Found exisiting competition with ExternalId {competitionDto.Id}, Entity id: {exisitingCompetition.Id}. Updating..");
                 UpdateExistingCompetition(competitionDto, exisitingCompetition);
+                _competitionSetupSynchronizer.UpdateExisitingCompetitionSetup(competitionDto, exisitingCompetition.Id);
             }
-
+            
             StratosphereUnitOfWork.Complete();
+            
             return (isNew) ? SynchrnoizationResult.CreatedNew : SynchrnoizationResult.UpdatedExisting;
            
 
@@ -50,10 +56,12 @@ namespace Integration.Synchronization
             
         }
 
-        private void CreateNewCompetition(CompetitionDto competitionDto)
+        private Competition CreateNewCompetition(CompetitionDto competitionDto)
         {
             var competition = Mapper.Map<CompetitionDto, Competition>(competitionDto);
             StratosphereUnitOfWork.Competitions.Add(competition);
+            StratosphereUnitOfWork.Complete();
+            return competition;
         }
     }
 }

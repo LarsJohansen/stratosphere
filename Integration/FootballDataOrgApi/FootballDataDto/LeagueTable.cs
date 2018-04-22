@@ -10,7 +10,7 @@ namespace Integration.FootballDataOrgApi.FootballDataDto
 
         public int MatchDay { get; set; }
 
-        public Standings Standings { get; set; }
+        public GroupStandings Standings { get; set; }
     
     }
 }

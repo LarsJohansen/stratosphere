@@ -14,7 +14,13 @@ namespace Integration.FootballDataOrgApi.Options
 
         public string LeagueTableEndpoint { get; set; }
 
-        public string ApiKey { get; set; } = Environment.GetEnvironmentVariable("FOOTBALLDATAAPIKEY");
+        public Dictionary<string, string> HeaderCollection = new Dictionary<string, string>
+        {
+            {"X-Auth-Token", Environment.GetEnvironmentVariable("FOOTBALLDATAAPIKEY")}
+        };
 
     }
 }
+
+  
+

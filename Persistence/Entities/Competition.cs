@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace Persistence.Entities
@@ -15,6 +16,8 @@ namespace Persistence.Entities
         public string CreatedAt { get; set; }
 
         public bool Enabled { get; set; }
+
+        public string League { get; set; }
 
         public int ExternalId { get; set; }
 

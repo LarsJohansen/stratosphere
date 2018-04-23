@@ -10,6 +10,20 @@ namespace Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "CompetitionRuleSets",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    LeagueDescription = table.Column<string>(nullable: true),
+                    NumberOfTeamsToPlayOffPerGroup = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompetitionRuleSets", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Competitions",
                 columns: table => new
                 {
@@ -19,6 +33,7 @@ namespace Persistence.Migrations
                     Description = table.Column<string>(maxLength: 250, nullable: true),
                     Enabled = table.Column<bool>(nullable: false, defaultValue: true),
                     ExternalId = table.Column<int>(nullable: false),
+                    League = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: true)
                 },
                 constraints: table =>
@@ -516,6 +531,9 @@ namespace Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CompetitionRuleSets");
+
             migrationBuilder.DropTable(
                 name: "CompetitionSetups");
 

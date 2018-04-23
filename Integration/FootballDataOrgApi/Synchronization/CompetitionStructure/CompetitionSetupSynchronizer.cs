@@ -40,6 +40,7 @@ namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure
 
             exisitingSetup.NumberOfGroups = newSetup.NumberOfGroups;
             exisitingSetup.NumberOfTeams = newSetup.NumberOfTeams;
+            exisitingSetup.NumberOfTeamsToPlayOff = newSetup.NumberOfTeamsToPlayOff;
 
         }
     }

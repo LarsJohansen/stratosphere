@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using AutoMapper;
 using Integration;
 using Integration.FootballDataOrgApi.FootballDataDto;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Persistence;
 using Persistence.Abstract;
+using Persistence.Entities;
 using Serilog;
 using Serilog.Events;
 
@@ -30,7 +32,7 @@ namespace SynchronizationRunner
             {
                 var serviceCollection = new ServiceCollection();
                 var serviceProvider = ConfigureServices(serviceCollection);
-
+                Initialize(serviceProvider);
                 var syncController = serviceProvider.GetService<ICompetitionStructureSynchController>();
                 syncController.Run("WC", 2018);
 
@@ -102,6 +104,30 @@ namespace SynchronizationRunner
                     rollOnFileSizeLimit: true,
                     flushToDiskInterval: TimeSpan.FromSeconds(1))
                 .CreateLogger();
+        }
+
+
+        private static void Initialize(IServiceProvider service)
+        {
+            using (var serviceScope = service.CreateScope())
+            {
+                var scopeServiceProvider = serviceScope.ServiceProvider;
+                var db = scopeServiceProvider.GetService<StratosphereContext>();
+                db.Database.EnsureCreated();
+                InsertDefaultData(db);
+            }
+        }
+
+        private static void InsertDefaultData(StratosphereContext context)
+        {
+            if (context.CompetitionRuleSets.Any())
+            {
+                return;
+            }
+
+            var rule = new CompetitionRuleSet {LeagueDescription = "WC", NumberOfTeamsToPlayOffPerGroup = 2};
+            context.CompetitionRuleSets.Add(rule);
+            context.SaveChanges();
         }
     }
 }

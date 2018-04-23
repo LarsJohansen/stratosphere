@@ -8,7 +8,7 @@ namespace Persistence
 {
     public class StratosphereUnitOfWork : IStratosphereUnitOfWork
     {
-        private StratosphereContext _context;
+        private readonly StratosphereContext _context;
 
         public StratosphereUnitOfWork(StratosphereContext context)
         {
@@ -20,6 +20,7 @@ namespace Persistence
         {
             Competitions = new Repository<Competition>(_context);
             CompetitionSetups = new Repository<CompetitionSetup>(_context);
+            CompetitionRuleSets = new Repository<CompetitionRuleSet>(_context);
             Groups = new Repository<Group>(_context);
             Matches = new Repository<Match>(_context);
             MatchDays = new Repository<MatchDay>(_context);
@@ -37,6 +38,7 @@ namespace Persistence
 
         public IRepository<Competition> Competitions { get; private set; }
         public IRepository<CompetitionSetup> CompetitionSetups { get; private set; }
+        public IRepository<CompetitionRuleSet> CompetitionRuleSets { get; private set; }
         public IRepository<Group> Groups { get; private set; }
         public IRepository<Match> Matches { get; private set; }
         public IRepository<MatchDay> MatchDays { get; private set; }

@@ -11,6 +11,8 @@ namespace Persistence.Abstract
 
         IRepository<CompetitionSetup> CompetitionSetups { get; }
 
+        IRepository<CompetitionRuleSet> CompetitionRuleSets { get; }
+        
         IRepository<Group> Groups { get; }
 
         IRepository<Match> Matches { get; }

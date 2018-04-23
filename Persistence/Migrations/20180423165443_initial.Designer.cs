@@ -11,7 +11,7 @@ using System;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(StratosphereContext))]
-    [Migration("20180422144853_initial")]
+    [Migration("20180423165443_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,12 +37,28 @@ namespace Persistence.Migrations
 
                     b.Property<int>("ExternalId");
 
+                    b.Property<string>("League");
+
                     b.Property<string>("Name")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
 
                     b.ToTable("Competitions");
+                });
+
+            modelBuilder.Entity("Persistence.Entities.CompetitionRuleSet", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LeagueDescription");
+
+                    b.Property<int>("NumberOfTeamsToPlayOffPerGroup");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompetitionRuleSets");
                 });
 
             modelBuilder.Entity("Persistence.Entities.CompetitionSetup", b =>

@@ -22,6 +22,8 @@ namespace Persistence
 
         public DbSet<Competition> Competitions { get; set; }
 
+        public DbSet<CompetitionRuleSet> CompetitionRuleSets { get; set; }
+
         public DbSet<Group> Groups { get; set; }
 
         public DbSet<Team> Teams { get; set; }
@@ -196,6 +198,11 @@ namespace Persistence
 
             });
 
+            modelBuilder.Entity<CompetitionRuleSet>(entity =>
+            {
+                
+            });
+
             modelBuilder.Entity<TeamOnCompetition>(entity =>
             {
 
@@ -240,6 +247,7 @@ namespace Persistence
                     .WithMany(m => m.UserMatchPredictions)
                     .HasForeignKey(e => e.FkMatch);
             });
+
         }
     }
 }

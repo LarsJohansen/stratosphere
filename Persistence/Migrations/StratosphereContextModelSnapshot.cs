@@ -36,12 +36,28 @@ namespace Persistence.Migrations
 
                     b.Property<int>("ExternalId");
 
+                    b.Property<string>("League");
+
                     b.Property<string>("Name")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
 
                     b.ToTable("Competitions");
+                });
+
+            modelBuilder.Entity("Persistence.Entities.CompetitionRuleSet", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LeagueDescription");
+
+                    b.Property<int>("NumberOfTeamsToPlayOffPerGroup");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompetitionRuleSets");
                 });
 
             modelBuilder.Entity("Persistence.Entities.CompetitionSetup", b =>

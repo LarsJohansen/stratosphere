@@ -39,8 +39,6 @@ namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure
             StratosphereUnitOfWork.Complete();
 
             return competition;
-           
-
 
         }
 
@@ -49,7 +47,8 @@ namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure
             var newCompetition = Mapper.Map<CompetitionDto, Competition>(competitionDto);
             competition.Description = newCompetition.Name;
             competition.Description = newCompetition.Description;
-            
+            competition.League = newCompetition.League;
+
         }
 
         private Competition CreateNewCompetition(CompetitionDto competitionDto)

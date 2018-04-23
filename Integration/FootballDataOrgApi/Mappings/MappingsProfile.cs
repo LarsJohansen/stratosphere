@@ -28,6 +28,7 @@ namespace Integration.FootballDataOrgApi.Mappings
                 .ForMember(dest => dest.NumberOfGroups, opt => opt.ResolveUsing<NumberOfGroupsInCompetitionResolver>())
                 .ForMember(dest => dest.NumberOfTeamsToPlayOff,
                     opt => opt.ResolveUsing<NumberOfTeamsToPlayOffResolver>());
+            
 
             CreateMap<StandingDto, Team>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Team))

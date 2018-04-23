@@ -81,6 +81,36 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
 
         }
 
+        [Test]
+        public void UpdateExistingCompetitionSetup_WithExistingCompetitionSetup_CompetitonSetupUpdated()
+        {
+            //Arrange 
+            ResetMocks();
+            CompetitionSetup existingCompetitionSetup = new CompetitionSetup();
+            var newCompetitionSetup = new CompetitionSetup{ NumberOfGroups = 11, NumberOfTeams = 12, NumberOfTeamsToPlayOff = 13};
+            var mockStatosUoW = new Mock<IStratosphereUnitOfWork>();
+            mockStatosUoW.Setup(m =>
+                    m.CompetitionSetups.SingleOrDefault(It.IsAny<Expression<Func<CompetitionSetup, bool>>>()))
+                .Returns(existingCompetitionSetup);
+
+
+            _mockMapper.Setup(m => m.Map<CompetitionDto, CompetitionSetup>(It.IsAny<CompetitionDto>()))
+                .Returns(newCompetitionSetup);
+            var competitionId = 123;
+
+            //Act 
+            _competitionSetupSynchronizer = new CompetitionSetupSynchronizer(mockStatosUoW.Object, _mockMapper.Object,
+                _mockLogger.Object);
+            _competitionSetupSynchronizer.UpdateExisitingCompetitionSetup(new CompetitionDto(), competitionId);
+
+            //Assert
+            Assert.AreEqual(newCompetitionSetup.NumberOfTeams, existingCompetitionSetup.NumberOfTeams);
+            Assert.AreEqual(newCompetitionSetup.NumberOfTeamsToPlayOff, existingCompetitionSetup.NumberOfTeamsToPlayOff);
+            Assert.AreEqual(newCompetitionSetup.NumberOfGroups , existingCompetitionSetup.NumberOfGroups);
+            mockStatosUoW.Verify(m => m.CompetitionSetups.Add(It.IsAny<CompetitionSetup>()), Times.Never);
+
+        }
+
         private void ResetMocks()
         {
 

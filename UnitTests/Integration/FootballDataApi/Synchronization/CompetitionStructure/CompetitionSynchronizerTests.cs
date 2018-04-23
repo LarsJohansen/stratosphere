@@ -20,11 +20,11 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
     [TestFixture]
     public class CompetitionSynchronizerTests
     {
-        private ICompetitionSynchronizer _competitionSynchronizer;
+        private readonly ICompetitionSynchronizer _competitionSynchronizer;
         private readonly Mock<IStratosphereUnitOfWork> _mockStratosUoW = new Mock<IStratosphereUnitOfWork>();
         private readonly Mock<IMapper> _mockMapper = new Mock<IMapper>();
         private readonly Mock<ICompetitionSetupSynchronizer> _mockCompetitionSetupSynchronizer = new Mock<ICompetitionSetupSynchronizer>();
-        private readonly Mock<ILogger<BaseSynchronizer>> _mockLogger = new Mock<ILogger<BaseSynchronizer>>();
+        private readonly Mock<ILogger<CompetitionSynchronizer>> _mockLogger = new Mock<ILogger<CompetitionSynchronizer>>();
 
         public CompetitionSynchronizerTests()
         {
@@ -43,7 +43,7 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
         public void CreateUpdateCompetition_WithNoExistingCompetition_CompetitionAdded()
         {
             //Arrange
-            ResetMockCalls();
+            ResetMocks();
      
             var competitionDto = new CompetitionDto { };
             Competition competition = null;
@@ -67,7 +67,7 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
         public void CreateUpdateCompetition_WithExistingCompetition_CompetitionUpdated()
         {
             //Arrange
-            ResetMockCalls();
+            ResetMocks();
             var competitionDto = new CompetitionDto { };
           
             var existingCompetition =
@@ -104,15 +104,14 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
             Assert.AreEqual(newCompetition.League, result.League);
         }
 
-        private void ResetMockCalls()
+        private void ResetMocks()
         {
             _mockCompetitionSetupSynchronizer.Reset();
             _mockStratosUoW.Reset();
-            _mockCompetitionSetupSynchronizer.Reset();
 
             _mockCompetitionSetupSynchronizer.ResetCalls();
             _mockStratosUoW.ResetCalls();
-            _mockCompetitionSetupSynchronizer.ResetCalls();
+   
         }
     }
 }

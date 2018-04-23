@@ -12,7 +12,7 @@ namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure
     {
         private readonly ICompetitionSetupSynchronizer _competitionSetupSynchronizer;
         public CompetitionSynchronizer(ICompetitionSetupSynchronizer competitionSetupSynchronizer, IStratosphereUnitOfWork stratosphereUnitOfWork, IMapper mapper,
-            ILogger<BaseSynchronizer> logger) : base(stratosphereUnitOfWork, mapper, logger)
+            ILogger<CompetitionSynchronizer> logger) : base(stratosphereUnitOfWork, mapper, logger)
         {
             _competitionSetupSynchronizer = competitionSetupSynchronizer ??
                                             throw new ArgumentNullException(nameof(competitionSetupSynchronizer));

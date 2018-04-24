@@ -26,7 +26,7 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
 
         public CompetitionSetupSynchronizerTests()
         {
-            _mockStratosUoW.Setup(m => m.CompetitionSetups.Add(It.IsAny<CompetitionSetup>())).Verifiable();
+            _mockStratosUoW.Setup(m => m.CompetitionSetups.Add(It.IsAny<CompetitionSetup>()));
             _competitionSetupSynchronizer = new CompetitionSetupSynchronizer(_mockStratosUoW.Object, _mockMapper.Object,
                 _mockLogger.Object);
             
@@ -52,54 +52,49 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
         }
 
         [Test]
-        public void UpdateExistingCompetitionSetup_WithoutExistingCompetitionSetup_CreateCompetitionSetupInvoked()
+        public void UpdateExistingCompetitionSetup_NoExistingCompetitionSetup_CompetitionSetupAdded()
         {
             //Arrange 
             ResetMocks();
+            _mockStratosUoW  = new Mock<IStratosphereUnitOfWork>();
+            _mockStratosUoW.Setup(m => m.CompetitionSetups.Add(It.IsAny<CompetitionSetup>()));
+
             CompetitionSetup existingCompetitionSetup = null;
-            var newCompetitionSetup = new CompetitionSetup();
-            var mockStatosUoW = new Mock<IStratosphereUnitOfWork>();
-            mockStatosUoW.Setup(m =>
-                    m.CompetitionSetups.SingleOrDefault(It.IsAny<Expression<Func<CompetitionSetup, bool>>>()))
-                .Returns(existingCompetitionSetup);
 
-
+            var newCompetitionSetup = new CompetitionSetup(); 
             _mockMapper.Setup(m => m.Map<CompetitionDto, CompetitionSetup>(It.IsAny<CompetitionDto>()))
                 .Returns(newCompetitionSetup);
+
             var competitionId = 123;
 
             //Act 
-            //TODO:  _mockStratosUoW.ResetCalls(); does not seem to reset verify counter, hence new ... why?
-
-            _competitionSetupSynchronizer = new CompetitionSetupSynchronizer(mockStatosUoW.Object, _mockMapper.Object,
+           _competitionSetupSynchronizer = new CompetitionSetupSynchronizer(_mockStratosUoW.Object, _mockMapper.Object,
                 _mockLogger.Object);
             _competitionSetupSynchronizer.UpdateExisitingCompetitionSetup(new CompetitionDto(), competitionId);
 
             //Assert
-            Assert.AreEqual(competitionId, newCompetitionSetup.FkCompetition);
+            Assert.AreEqual(competitionId, competitionId);
             _mockStratosUoW.Verify(m => m.CompetitionSetups.Add(It.IsAny<CompetitionSetup>()), Times.Once);
 
         }
 
         [Test]
-        public void UpdateExistingCompetitionSetup_WithExistingCompetitionSetup_CompetitonSetupUpdated()
+        public void UpdateExistingCompetitionSetup_HasExistingCompetitionSetup_CompetitonSetupUpdatedNotAdded()
         {
             //Arrange 
-            ResetMocks();
-            CompetitionSetup existingCompetitionSetup = new CompetitionSetup();
-            var newCompetitionSetup = new CompetitionSetup{ NumberOfGroups = 11, NumberOfTeams = 12, NumberOfTeamsToPlayOff = 13};
-            var mockStatosUoW = new Mock<IStratosphereUnitOfWork>();
-            mockStatosUoW.Setup(m =>
+            _mockStratosUoW = new Mock<IStratosphereUnitOfWork>();
+            var existingCompetitionSetup = new CompetitionSetup{ NumberOfGroups = 1, NumberOfTeams = 1, NumberOfTeamsToPlayOff = 1, FkCompetition = 123};
+            _mockStratosUoW.Setup(m =>
                     m.CompetitionSetups.SingleOrDefault(It.IsAny<Expression<Func<CompetitionSetup, bool>>>()))
                 .Returns(existingCompetitionSetup);
-
-
+        
+            var newCompetitionSetup = new CompetitionSetup{ NumberOfGroups = 11, NumberOfTeams = 12, NumberOfTeamsToPlayOff = 13};
             _mockMapper.Setup(m => m.Map<CompetitionDto, CompetitionSetup>(It.IsAny<CompetitionDto>()))
                 .Returns(newCompetitionSetup);
             var competitionId = 123;
 
             //Act 
-            _competitionSetupSynchronizer = new CompetitionSetupSynchronizer(mockStatosUoW.Object, _mockMapper.Object,
+            _competitionSetupSynchronizer = new CompetitionSetupSynchronizer(_mockStratosUoW.Object, _mockMapper.Object,
                 _mockLogger.Object);
             _competitionSetupSynchronizer.UpdateExisitingCompetitionSetup(new CompetitionDto(), competitionId);
 
@@ -107,7 +102,7 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
             Assert.AreEqual(newCompetitionSetup.NumberOfTeams, existingCompetitionSetup.NumberOfTeams);
             Assert.AreEqual(newCompetitionSetup.NumberOfTeamsToPlayOff, existingCompetitionSetup.NumberOfTeamsToPlayOff);
             Assert.AreEqual(newCompetitionSetup.NumberOfGroups , existingCompetitionSetup.NumberOfGroups);
-            mockStatosUoW.Verify(m => m.CompetitionSetups.Add(It.IsAny<CompetitionSetup>()), Times.Never);
+            _mockStratosUoW.Verify(m => m.CompetitionSetups.Add(It.IsAny<CompetitionSetup>()), Times.Never);
 
         }
 
@@ -117,9 +112,6 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
             _mockMapper.Reset();
             _mockStratosUoW.Reset();
         
-            _mockMapper.ResetCalls();
-            _mockStratosUoW.ResetCalls();
-     
 
         }
     }

@@ -28,7 +28,7 @@ namespace UnitTests.Integration.FootballDataApi.Synchronization.CompetitionStruc
 
         public CompetitionSynchronizerTests()
         {
-            _mockStratosUoW.Setup(m => m.Competitions.Add(It.IsAny<Competition>())).Verifiable();
+            _mockStratosUoW.Setup(m => m.Competitions.Add(It.IsAny<Competition>()));
             _mockStratosUoW.Setup(m => m.Complete()).Verifiable();
             _mockCompetitionSetupSynchronizer.Setup(m => m.UpdateExisitingCompetitionSetup(It.IsAny<CompetitionDto>(), It.IsAny<long>()))
                 .Verifiable();

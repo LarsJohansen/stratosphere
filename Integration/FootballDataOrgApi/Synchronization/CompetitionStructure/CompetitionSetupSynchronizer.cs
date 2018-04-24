@@ -21,7 +21,6 @@ namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure
             competitionSetup.FkCompetition = competitionId;
             StratosphereUnitOfWork.CompetitionSetups.Add(competitionSetup);
 
-            
         }
 
         public void UpdateExisitingCompetitionSetup(CompetitionDto competitionDto, long competitionId)
@@ -41,6 +40,7 @@ namespace Integration.FootballDataOrgApi.Synchronization.CompetitionStructure
             exisitingSetup.NumberOfGroups = newSetup.NumberOfGroups;
             exisitingSetup.NumberOfTeams = newSetup.NumberOfTeams;
             exisitingSetup.NumberOfTeamsToPlayOff = newSetup.NumberOfTeamsToPlayOff;
+            exisitingSetup.FkCompetition = competitionId;
 
         }
     }
